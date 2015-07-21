@@ -5,7 +5,7 @@
         '', //首页
         'home.md',
         'about.md',
-        'reame.md'
+        'README.md'
     ]
 
     var isIndexPage = function(){
@@ -22,7 +22,7 @@
         var search = window.location.search;
         for (var index in white_list){
             // new RegExp('about.md').test(window.location.search)
-            if ((white_list[index] != '' && new RegExp(white_list[index]).test(search))
+            if ((white_list[index] != '' && new RegExp(white_list[index], 'ig').test(search))
                 || search == white_list[index]){
                 return true;
             }
