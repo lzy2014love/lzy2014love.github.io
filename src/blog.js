@@ -70,124 +70,133 @@
         var isSidebar = isSidebar || false;
 
         var p_url = baseUrl + file_path;
-
-        $.get(p_url, function(data) {
-            marked.setOptions({
-                highlight: function(code) {
-                    return hljs.highlightAuto(code).value;
-                }
-            });
-            var _selector = $(selector);
-            _selector.html(marked(data));
-
-            //处理所有href
-            _selector.find('[href]').each(function() {
-                var $element = $(this);
-                var url = $element.attr('href');
-
-                if (isAbsolute(url)) {
-                    $element.attr('target', '_blank');
-                }
-
-                // sidebar
-                if (isSidebar && isMarkdownFile(url)) {
-                    $element.attr('href', '?' + url);
-
-                }
-
-                //main page
-                if (!isAbsolute(url) && !isSidebar && isMarkdownFile(url)) {
-                    var new_url = getPageBase(cur_md_path);
-                    //上一级目录
-                    if (url.indexOf('../') == 0) {
-                        //处理相对路径
-                        new_url = resolvePath(getPageBase(cur_md_path), url);
-                    } else if (url.indexOf('__P__') == 0) {
-                        //文章根目录`p/`下
-                        new_url = url.replace('__P__/', '');
-                    } else {
-                        //当前目录
-                        new_url = new_url + url.replace('./', '');
+        
+        $.ajax({
+            type: 'GET',
+            url: p_url,
+            success: function(data){
+                marked.setOptions({
+                    highlight: function(code) {
+                        return hljs.highlightAuto(code).value;
                     }
-                    $element.attr('href', '?' + new_url);
-                }
-            });
-            //main-page
-            if (!isSidebar) {
-                //change title
-                var mainTitle = $('#main-page').find('h1, h2, h3, h4, h5, h6').first().text();
-                $('title').text(mainTitle);
+                });
+                var _selector = $(selector);
+                _selector.html(marked(data));
 
-                //图片位置
+                //处理所有href
+                _selector.find('[href]').each(function() {
+                    var $element = $(this);
+                    var url = $element.attr('href');
+
+                    if (isAbsolute(url)) {
+                        $element.attr('target', '_blank');
+                    }
+
+                    // sidebar
+                    if (isSidebar && isMarkdownFile(url)) {
+                        $element.attr('href', '?' + url);
+
+                    }
+
+                    //main page
+                    if (!isAbsolute(url) && !isSidebar && isMarkdownFile(url)) {
+                        var new_url = getPageBase(cur_md_path);
+                        //上一级目录
+                        if (url.indexOf('../') == 0) {
+                            //处理相对路径
+                            new_url = resolvePath(getPageBase(cur_md_path), url);
+                        } else if (url.indexOf('__P__') == 0) {
+                            //文章根目录`p/`下
+                            new_url = url.replace('__P__/', '');
+                        } else {
+                            //当前目录
+                            new_url = new_url + url.replace('./', '');
+                        }
+                        $element.attr('href', '?' + new_url);
+                    }
+                });
+                //main-page
+                if (!isSidebar) {
+                    //change title
+                    var mainTitle = $('#main-page').find('h1, h2, h3, h4, h5, h6').first().text();
+                    $('title').text(mainTitle);
+
+                    //图片位置
+                    $.each(_selector.find('img'), function(index, item) {
+                        var alt = $(item).attr('alt') || '';
+                        if (alt.indexOf('|left') != -1) {
+                            $(item).addClass('img-left');
+                        } else if (alt.indexOf('|right') != -1) {
+                            $(item).addClass('img-right');
+                        } else {
+                            $(item).addClass('img-center');
+                        }
+                    });
+                }
+                //sidebar
+                if (isSidebar) {
+                    //round avatar
+                    _selector.find('img').first().addClass('avatar');
+                    //add animation in item
+                    $.each(_selector.find('li'), function(index, item) {
+                        $(item).addClass('sidebar-item');
+                    });
+                }
+                //处理图片链接
                 $.each(_selector.find('img'), function(index, item) {
-                    var alt = $(item).attr('alt') || '';
-                    if (alt.indexOf('|left') != -1) {
-                        $(item).addClass('img-left');
-                    } else if (alt.indexOf('|right') != -1) {
-                        $(item).addClass('img-right');
+                    var $e = $(item);
+                    if ($e.attr('src').indexOf('__IMG__') == 0) {
+                        $e.attr('src', $e.attr('src').replace('__IMG__', img_root));
                     } else {
-                        $(item).addClass('img-center');
+                        //适配相对路径
+                        var path = resolvePath(getPageBase(p_url), $e.attr('src'));
+                        $e.attr('src', path);
                     }
                 });
-            }
-            //sidebar
-            if (isSidebar) {
-                //round avatar
-                _selector.find('img').first().addClass('avatar');
-                //add animation in item
-                $.each(_selector.find('li'), function(index, item) {
-                    $(item).addClass('sidebar-item');
-                });
-            }
-            //处理图片链接
-            $.each(_selector.find('img'), function(index, item) {
-                var $e = $(item);
-                if ($e.attr('src').indexOf('__IMG__') == 0) {
-                    $e.attr('src', $e.attr('src').replace('__IMG__', img_root));
-                } else {
-                    //适配相对路径
-                    var path = resolvePath(getPageBase(p_url), $e.attr('src'));
-                    $e.attr('src', path);
-                }
-            });
 
-            if (selector == '#sidebar-page'){
-                hook('loaded-sidebar-page');
-            }else if (selector == '#main-page'){
-                hook('loaded-main-page');
-            }else if (selector == '#main-page-footer'){
-                hook('loaded-main-page-footer')
-            }
-
-        }).fail(function(err) {
-            if (err.status === 404) {
-                if (file_path === 'footer.md') {
-                    console.log('没有找到footer.md! 建议在p/目录下建立footer.md 文件来添加底部信息！');
-                    return;
+                if (selector == '#sidebar-page'){
+                    hook('loaded-sidebar-page');
+                }else if (selector == '#main-page'){
+                    hook('loaded-main-page');
+                }else if (selector == '#main-page-footer'){
+                    hook('loaded-main-page-footer')
                 }
-                load('#main-page', '404.md', false, '/' + app_name + '/');
-                hook('page-not-found', {
-                    selector: selector,
-                    path: file_path
-                })
+            },
+            error:function(err) {
+                if (err.status === 404) {
+                    if (file_path === 'footer.md') {
+                        console.log('没有找到footer.md! 建议在p/目录下建立footer.md 文件来添加底部信息！');
+                        return;
+                    }
+                    load('#main-page', '404.md', false, '/' + app_name + '/');
+                    hook('page-not-found', {
+                        selector: selector,
+                        path: file_path
+                    })
+                }
             }
-        });
+        })
     }
 
     function read_config(callback) {
-        $.getJSON('config.json', {}, function(data) {
-            app_name = data.app_name || app_name;
-            img_root = data.img_root || img_root;
-            var description = data.description || "";
+        $.ajax({
+            method: 'GET',
+            url: 'config.json',
+            success: function(data) {
+                app_name = data.app_name || app_name;
+                img_root = data.img_root || img_root;
+                var description = data.description || "";
 
-            markdown_root = data.markdown_root || markdown_root;
-            blog_base = '/' + app_name + '/' + markdown_root + '/';
+                markdown_root = data.markdown_root || markdown_root;
+                blog_base = '/' + app_name + '/' + markdown_root + '/';
 
-            $('meta[name=description]').first().attr('content', description);
-            callback();
-        }).fail(function(err) {
-            alert('读取配置有误');
-        });
+                $('meta[name=description]').first().attr('content', description);
+                callback();
+            },
+            error: function(err) {
+                alert('读取配置有误');
+            }
+        })
     }
 
     function main() {
@@ -220,4 +229,4 @@
 
     main();
 
-})(jQuery);
+})(Zepto);
