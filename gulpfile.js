@@ -37,7 +37,7 @@ gulp.task('compress', function() {
 
 gulp.task('concat-js',['compress'], function(){
     gulp.src(['vendor/highlight/highlight.pack.js',
-              'vendor/marked-0.3.2.min.js',
+              'vendor/marked-0.3.5.min.js',
               'vendor/blog.js'])
         .pipe(concat('core.js'))
         .pipe(gulp.dest(DEST))
