@@ -4,4 +4,4 @@
         var $sidebar = $('.sidebar');
         $sidebar.css('background-image', "url('https://unsplash.it/{w}/{h}/?random&gravity=center')".replace('{w}', $sidebar.width()).replace('{h}', $sidebar.height()));
     });
-})(jQuery);
+})(Zepto);

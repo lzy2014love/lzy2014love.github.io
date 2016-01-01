@@ -10,4 +10,4 @@
     });
 
 
-})(jQuery, NProgress);
+})(Zepto, NProgress);

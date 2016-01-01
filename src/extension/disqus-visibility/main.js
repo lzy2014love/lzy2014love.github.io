@@ -57,4 +57,4 @@
     $(window).on('before-load-main-page-footer', function(evt, data){
         // console.log('before-load-main-page-footer')
     });
-})(jQuery);
+})(Zepto);
