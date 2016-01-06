@@ -153,6 +153,7 @@ blockquote {
 .avatar {
     border-radius: 50%;
     padding: 3px;
+    width: 50%;
 }
 
 @media (max-width: 480px) {
@@ -188,7 +189,7 @@ blockquote {
         top: 0;
         bottom: 0;
         left: 0;
-        width: 25%;
+        width: 20%;
     }
     .sidebar-inner {
         padding: 15%;
