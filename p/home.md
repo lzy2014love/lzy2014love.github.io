@@ -2,6 +2,9 @@
 ========
 >Be a silentor, focus on writting your words down.
 
+
+### ==>[1分钟快速构建你的博客](./docs/getting-start/main.md)
+
 特点
 ----
 * 开箱即用(Fork 本项目立马可以使用)
