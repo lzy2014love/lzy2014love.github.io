@@ -1,4 +1,4 @@
-## 1分钟构建你的博客
+## 1分钟快速构建你的博客
 
 ### 第一步：Fork [silentor](https://github.com/Jayin/silentor)到自己的仓库
 ![1](./img/1.png)
