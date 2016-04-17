@@ -13,7 +13,7 @@
 
 [文档 & DEMO](http://jayin.github.io/silentor/)
 
-[1分钟快速构建你的silentor博客🚀](http://jayinton.com/silentor/?docs/getting-start/main.md)
+[🚀教程:1分钟快速构建你的silentor博客](http://jayinton.com/silentor/?docs/getting-start/main.md)
 
 Developement
 ------------
