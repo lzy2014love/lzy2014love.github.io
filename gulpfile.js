@@ -2,9 +2,19 @@ var gulp = require('gulp');
 var minifyCss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
+var header = require('gulp-header');
 
 DEST = 'vendor';
 var IS_DEV = process.env.DEV || false;
+
+var pkg = require('./package.json');
+var banner = ['/**',
+  ' * <%= pkg.name %> - <%= pkg.description %>',
+  ' * @version v<%= pkg.version %>',
+  ' * @link <%= pkg.homepage %>',
+  ' * @license <%= pkg.license %>',
+  ' */',
+  ''].join('\n');
 
 gulp.task('copy', function(){
     gulp.src('src/**/*.+(md|gif|png|jpg)')
@@ -40,6 +50,7 @@ gulp.task('concat-js',['compress'], function(){
               'vendor/marked-0.3.5.min.js',
               'vendor/blog.js'])
         .pipe(concat('core.js'))
+        .pipe(header(banner, { pkg : pkg } ))
         .pipe(gulp.dest(DEST))
 });
 
@@ -48,6 +59,7 @@ gulp.task('concat-css',['minify-css'], function(){
               'vendor/github-markdown.css',
               'vendor/blog.css'])
         .pipe(concat('core.css'))
+        .pipe(header(banner, { pkg : pkg } ))
         .pipe(gulp.dest(DEST))
 });
 
