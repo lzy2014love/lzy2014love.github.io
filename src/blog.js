@@ -94,7 +94,7 @@
 
                     // sidebar
                     if (isSidebar && isMarkdownFile(url)) {
-                        $element.attr('href', '?' + url);
+                        $element.attr('href', '?p=' + url);
 
                     }
 
@@ -112,7 +112,7 @@
                             //当前目录
                             new_url = new_url + url.replace('./', '');
                         }
-                        $element.attr('href', '?' + new_url);
+                        $element.attr('href', '?p=' + new_url);
                     }
                 });
                 //main-page
@@ -199,6 +199,39 @@
         })
     }
 
+
+    function urlparser(url) {
+      var a = document.createElement('a');
+      a.href = url;
+      
+      var search = function(search) {
+        if(!search) return {};
+        
+        var ret = {};
+        search = search.slice(1).split('&');
+        for(var i = 0, arr; i < search.length; i++) {
+          arr = search[i].split('=');
+          var key = arr[0], value = arr[1];
+          if(/\[\]$/.test(key)) {
+            ret[key] = ret[key] || [];
+            ret[key].push(value);
+          } else {
+            ret[key] = value;
+          }
+        }
+        return ret;
+      };
+      
+      return {
+        protocol: a.protocol,
+        host: a.host,
+        hostname: a.hostname,
+        pathname: a.pathname,
+        search: search(a.search),
+        hash: a.hash
+      }
+    };
+
     function main() {
         read_config(function() {
             //加载侧边菜单栏
@@ -208,11 +241,8 @@
             hook('before-load-main-page-footer');
             load('#main-page-footer', 'footer.md');
             //加载主内容页
-            if (location.search.indexOf('&') !== -1) {
-                cur_md_path = location.search.slice(1, location.search.indexOf('&'));
-            } else {
-                cur_md_path = location.search.slice(1, location.search.length);
-            }
+            var urlobject = urlparser(window.location.href);
+            cur_md_path = urlobject.search['p'] || '';
             //部分服务器会在后面追加'/',例如：?a/b/cxx.md/
             if (cur_md_path.charAt(cur_md_path.length - 1) === '/') {
                 cur_md_path = cur_md_path.slice(0, location.search.length - 2);
