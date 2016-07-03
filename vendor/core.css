@@ -1,6 +1,6 @@
 /**
  * silentor - Markdown base, convention over configuration and minimalism blog
- * @version v1.5.5
+ * @version v1.7.0
  * @link https://github.com/Jayin/silentor
  * @license MIT
  */

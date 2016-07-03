@@ -1,6 +1,6 @@
 {
   "name": "silentor",
-  "version": "1.5.5",
+  "version": "1.7.0",
   "description": "Markdown base, convention over configuration and minimalism blog",
   "main": "gulpfile.js",
   "dependencies": {},
