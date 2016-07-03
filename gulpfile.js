@@ -35,10 +35,10 @@ gulp.task('minify-css', function() {
 
 gulp.task('compress', function() {
     if (IS_DEV) {
-        gulp.src('src/**/*.js')
+        gulp.src('src/extension/**/*.js')
             .pipe(gulp.dest(DEST));
     } else {
-        gulp.src('src/**/*.js')
+        gulp.src('src/extension/**/*.js')
             .pipe(uglify())
             .pipe(gulp.dest(DEST));
     }
@@ -48,7 +48,7 @@ gulp.task('compress', function() {
 gulp.task('concat-js',['compress'], function(){
     gulp.src(['vendor/highlight/highlight.pack.js',
               'vendor/marked-0.3.5.min.js',
-              'vendor/blog.js'])
+              'src/blog.js'])
         .pipe(concat('core.js'))
         .pipe(header(banner, { pkg : pkg } ))
         .pipe(gulp.dest(DEST))
