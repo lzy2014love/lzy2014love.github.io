@@ -6,8 +6,8 @@ var header = require('gulp-header')
 var gulpif = require('gulp-if')
 var path = require('path')
 
-DEST = 'vendor'
-var IS_DEV = process.env.DEV || false
+const DEST = 'vendor'
+const IS_DEV = process.env.DEV || false
 
 var pkg = require('./package.json')
 var banner = ['/**',
