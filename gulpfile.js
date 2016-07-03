@@ -3,6 +3,7 @@ var minifyCss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var header = require('gulp-header');
+var gulpif = require('gulp-if');
 
 DEST = 'vendor';
 var IS_DEV = process.env.DEV || false;
@@ -22,26 +23,16 @@ gulp.task('copy', function(){
 });
 
 gulp.task('minify-css', function() {
-    if (IS_DEV) {
-        gulp.src('src/**/*.css')
+    gulp.src('src/**/*.css')
+            .pipe(gulpif(!IS_DEV, minifyCss()))
             .pipe(gulp.dest(DEST));
-    } else {
-        gulp.src('src/**/*.css')
-            .pipe(minifyCss())
-            .pipe(gulp.dest(DEST));
-    }
 
 });
 
 gulp.task('compress', function() {
-    if (IS_DEV) {
-        gulp.src('src/extension/**/*.js')
-            .pipe(gulp.dest(DEST));
-    } else {
-        gulp.src('src/extension/**/*.js')
-            .pipe(uglify())
-            .pipe(gulp.dest(DEST));
-    }
+    gulp.src('src/extension/**/*.js')
+        .pipe(gulpif(!IS_DEV, uglify()))
+        .pipe(gulp.dest(DEST));    
 
 });
 
@@ -50,6 +41,7 @@ gulp.task('concat-js',['compress'], function(){
               'vendor/marked-0.3.5.min.js',
               'src/blog.js'])
         .pipe(concat('core.js'))
+        .pipe(gulpif(!IS_DEV, uglify()))
         .pipe(header(banner, { pkg : pkg } ))
         .pipe(gulp.dest(DEST))
 });
