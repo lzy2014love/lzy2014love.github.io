@@ -4,6 +4,7 @@ var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var header = require('gulp-header');
 var gulpif = require('gulp-if');
+var path = require('path');
 
 DEST = 'vendor';
 var IS_DEV = process.env.DEV || false;
@@ -29,14 +30,14 @@ gulp.task('minify-css', function() {
 
 });
 
-gulp.task('compress', function() {
+gulp.task('compress-extension', function() {
     gulp.src('src/extension/**/*.js')
         .pipe(gulpif(!IS_DEV, uglify()))
-        .pipe(gulp.dest(DEST));    
+        .pipe(gulp.dest(path.join(DEST, 'extension')));    
 
 });
 
-gulp.task('concat-js',['compress'], function(){
+gulp.task('concat-js',['compress-extension'], function(){
     gulp.src(['vendor/highlight/highlight.pack.js',
               'vendor/marked-0.3.5.min.js',
               'src/blog.js'])
