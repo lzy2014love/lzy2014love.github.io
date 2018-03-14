@@ -1,10 +1,6 @@
-About Silentor
+About Me
 ===
-![Meizhuo logo|left](__IMG__/favicon.ico)
-![Meizhuo logo](__IMG__/favicon.ico)
-![Meizhuo logo|right](__IMG__/favicon.ico)
-
-> "Be a silentor, focus on writting your words down"
 
 
-**Github** [@meizhuo](https://github.com/Jayin/silentor)
+
+**Github** [@lzy2014love](https://github.com/lzy2014love)
