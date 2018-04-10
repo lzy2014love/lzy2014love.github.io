@@ -10,29 +10,30 @@
 
 ### 函数节流
 ``` js
-var canRun = true;
-document.getElementById("throttle").onscroll = function(){
- if(!canRun){
- // 判断是否已空闲，如果在执行中，则直接return
- return;
- }
- canRun = false;
- setTimeout(function(){
- console.log("函数节流");
- canRun = true;
- }, 300);
-};
+const throttle = (fun, delay, ...rest) => {
+  let last = null;
+  return () => {
+    const now = + new Date();
+    if (now - last > delay) {
+      fun(rest);
+      last = now;
+    }
+  }
+}
 ```
 
 ### 函数防抖
 ``` js
-var timer = false;
-document.getElementById("debounce").onscroll = function(){
- clearTimeout(timer); // 清除未执行的代码，重置回初始化状态
- timer = setTimeout(function(){
- console.log("函数防抖");
- }, 300);
-};
+//函数防抖
+const debouce = (fun, delay, ...rest) => {
+  let timer = null;
+  return () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fun(rest);
+    }, delay);
+  }
+}
 ```
 
 ## fetch
@@ -396,4 +397,55 @@ function addCopyright(copyright) {
     window.setTimeout(function () { body_element.removeChild(newdiv); }, 200);
   };
 }
+```
+
+### 快速排序
+``` js
+function quickSort(array) {
+  if (array.length <= 1) {
+    return array
+  }
+  let [pivot, ...rest] = array;
+  let leftArr = []
+  let rightArr = []
+  rest.forEach(ele => {
+    if (ele > pivot) {
+      rightArr.push(ele)
+    } else {
+      leftArr.push(ele)
+    }
+  })
+  return [...quickSort(leftArr), pivot, ...quickSort(rightArr)]
+}
+```
+
+### 统计数组中相同项的个数
+``` js
+var cars = ['BMW','Benz', 'Benz', 'Tesla', 'BMW', 'Toyota'];
+var carsObj = cars.reduce(function (obj, name) { 
+   obj[name] = obj[name] ? ++obj[name] : 1;
+  return obj;
+}, {});
+carsObj; // => { BMW: 2, Benz: 2, Tesla: 1, Toyota: 1 }
+```
+
+### 删除不需要的属性
+``` js
+let {_internal, tooBig, ...cleanObject} = {el1: '1', _internal:"secret", tooBig:{}, el2: '2', el3: '3'};
+console.log(cleanObject); // {el1: '1', el2: '2', el3: '3'}
+```
+
+### 错误捕获
+``` js
+window.onerror = function (errorMessage, scriptURI, lineNo, columnNo, error) {
+  console.log('errorMessage: ' + errorMessage); // 异常信息
+  console.log('scriptURI: ' + scriptURI); // 异常文件路径
+  console.log('lineNo: ' + lineNo); // 异常行号
+  console.log('columnNo: ' + columnNo); // 异常列号
+  console.log('error: ' + error); // 异常堆栈信息
+};
+
+// 跨域之后window.onerror是无法捕获异常信息的，所以统一返回Script error.，解决方案便是script属性配置 crossorigin="anonymous" 并且服务器添加Access-Control-Allow-Origin。
+
+<script src="http://cdn.xxx.com/index.js" crossorigin="anonymous"></script>
 ```
