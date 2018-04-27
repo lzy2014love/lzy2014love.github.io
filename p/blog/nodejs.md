@@ -30,3 +30,26 @@
 8. 浏览器开始下载`html`文档(响应报头，状态码`200`)，同时使用缓存;
 9. 文档树建立，根据标记请求所需指定`MIME`类型的文件（比如`css`、`js`）,同时设置了`cookie`;
 10. 页面开始渲染`DOM`，`JS`根据`DOM API`操作`DOM`,执行事件绑定等，页面显示完成。
+
+### npm
+* 设置淘宝镜像 `npm config set registry https://registry.npm.taobao.org`
+* 修改全局安装路径 修改`npm`文件夹下的`npmrc`文件，打开修改里面的内容，原来的内容删掉，写入 `prefix=D:\node\node_global`
+* 解决全局包找不到问题：先在用户变量里面新建明为`PATH`的变量，值为`D:\node\node_global`,这个值是你在步骤一种新建的文件夹的路径。然后在系统变量里面新建一个叫`NODE_PATH`的变量，值为`D:\node\node_global\node_modules`，这个值是步骤一中新建的node_global下的node_modules文件夹的路径，以后安装的全局模块就在这里
+
+1. 安装本地包： 在项目根目录下`npm link`
+### 软连接
+* `linux`: `ln -sf file1 file2` 其中file1是软件链接的名称,file2是实际文件的路径，以后通过file1就可以访问file2了
+* `windows`: `MKLINK [[/D] | [/H] | [/J]] Link Target`
+ 
+        /D      创建目录符号链接。默认为文件
+                符号链接。
+        /H      创建硬链接，而不是符号链接。
+        /J      创建目录联接。
+        Link    指定新的符号链接名称。
+        Target  指定新链接引用的路径
+                (相对或绝对)。
+                
+### koa ctx.body类型
+* `Buffer`,`Stream`对象： 设置ctx.type = 'application/octet-stream',即`Content-Type`为`application/octet-stream`,浏览器处理二进制文件默认是下载
+* `String`对象： `text/html` 或 `text/plain`, 同时默认字符集是 `utf-8`
+* `Object`或者`Array`对象： `application/json`
