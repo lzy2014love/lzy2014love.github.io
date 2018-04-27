@@ -1,5 +1,8 @@
 Markdown语法
 ===
+
+> 注意： Markdown语法没有标准，各家的实现略有不同，可以参考GitHub的
+
 > 参考:
 >* [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown/)
 >* [Markdown: Syntax](http://daringfireball.net/projects/markdown/syntax)
@@ -30,6 +33,14 @@ Markdown语法
 ```
 效果
 [超链接标题](https://github.com/Meizhuo)
+
+### `markdown`中超链接通过新窗口打开
+抛弃markdown中的行内式链接的语法。自己动手在需要超链接的位置，用html语言实现超链接在新窗口打开
+```
+欢迎大家访问<a href="https://lzy2014love.github.io/silentor/" target="_blank">lzy2014love的github blog</a>
+```
+效果 
+欢迎大家访问<a href="https://lzy2014love.github.io/silentor/" target="_blank">lzy2014love的github blog</a>
 
 
 ## 加入图片
