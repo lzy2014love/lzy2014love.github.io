@@ -1,15 +1,18 @@
 # HTML
-***
 
-### 360浏览器强制webkit渲染
-``` html
+---
+
+### 360 浏览器强制 webkit 渲染
+
+```html
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="renderer" content="webkit">
 ```
 
-### 移动webh5
-``` html
+### 移动 webh5
+
+```html
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
 <meta content="yes" name="apple-mobile-web-app-capable">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -19,7 +22,8 @@
 ```
 
 ### meta 标签
-``` html
+
+```html
     <!-- 设置缩放 -->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
     <!-- 可隐藏地址栏，仅针对IOS的Safari（注：IOS7.0版本以后，safari上已看不到效果） -->
@@ -54,15 +58,17 @@
 ```
 
 ### 处理 移动端 1px 被 渲染成 2px
-1. 局部处理
-    `meta`标签中的 `viewport`属性 ，`initial-scale` 设置为 1 
+
+1.  局部处理
+    `meta`标签中的 `viewport`属性 ，`initial-scale` 设置为 1
     `rem` 按照设计稿标准走，外加利用`transfrome` 的`scale(0.5)` 缩小一倍即可；
-2. 全局处理
+2.  全局处理
     `meta`标签中的 `viewport`属性 ，`initial-scale` 设置为 `0.5`
     `rem` 按照设计稿标准走即可
 
-### ie9下es5，css3兼容
-``` html
+### ie9 下 es5，css3 兼容
+
+```html
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -71,16 +77,19 @@
 <![endif]-->
 ```
 
-### ie9下兼容
+### ie9 下兼容
+
 `ie7–js`中是一个`JavaScript`库（解决`IE`与`W3C`标准的冲突的`JS`库），使微软的`Internet Explorer`的行为像一个`Web`标准兼容的浏览器，支持更多的`W3C`标准，支持`CSS2`、`CSS3`选择器。它修复了许多的`HTML`和`CSS`问题，并使 得透明`PNG`在`IE5`、`IE6`下正确显示。
-``` html
+
+```html
 <!–[if lt IE 9]>
 <script src=”http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js”></script>
 <![endif]–>
 ```
 
 ### 分享代码
-``` html
+
+```html
 <div class="share">
   <!-- JiaThis Button BEGIN -->
   <div class="jiathis_style">
@@ -104,28 +113,32 @@
 </div>
 ```
 
-### 
-``` html
-<audio controls="controls"> 
+###
+
+```html
+<audio controls="controls">
   <source src="music/bg.ogg" type="audio/ogg"></source>
   <source src="music/bg.mp3" type="audio/mpeg"></source>
   优先播放音乐bg.ogg，不支持在播放bg.mp3
 </audio>
 ```
-``` js 
+
+```js
 //JS绑定自动播放（操作window时，播放音乐）
-$(window).one('touchstart', function () {
-  music.play();
+$(window).one('touchstart', function() {
+  music.play()
 })
 
 //微信下兼容处理
-document.addEventListener("WeixinJSBridgeReady", function () {
-  music.play();
-}, false);
+document.addEventListener(
+  'WeixinJSBridgeReady',
+  function() {
+    music.play()
+  },
+  false
+)
 
-  //1.audio元素的autoplay属性在IOS及Android上无法使用，在PC端正常；
-  //2.audio元素没有设置controls时，在IOS及Android会占据空间大小，而在PC端Chrome是不会占据任何空间；
-  //3.注意不要遗漏微信的兼容处理需要引用微信JS；
+//1.audio元素的autoplay属性在IOS及Android上无法使用，在PC端正常；
+//2.audio元素没有设置controls时，在IOS及Android会占据空间大小，而在PC端Chrome是不会占据任何空间；
+//3.注意不要遗漏微信的兼容处理需要引用微信JS；
 ```
-
-
