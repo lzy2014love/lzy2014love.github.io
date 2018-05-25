@@ -167,6 +167,15 @@ fetch 的 mode 配置项有 3 个值，如下：
 })
 ```
 
+### 如何判断一个对象是{}
+
+```js
+function isEmptyObject(obj) {
+  obj = obj.__proto__ && Object.keys(obj.__proto__).length ? obj.__proto__ : obj
+  return !Object.keys(obj).length
+}
+```
+
 ### 防止多次请求
 
 ```js
@@ -285,6 +294,20 @@ function objectCreate(o) {
 var obj = {}
 obj.__proto__ = Base.prototype
 Base.call(obj)
+```
+
+### 构造函数必须 new
+
+```js
+function aa() {
+  if (this.constructor !== aa) {
+    throw new Error('必须new')
+  }
+
+  if (!(this instanceof aa)) {
+    throw new Error('必须new')
+  }
+}
 ```
 
 ### 动态加载
@@ -535,6 +558,5 @@ window.onerror = function(errorMessage, scriptURI, lineNo, columnNo, error) {
 }
 
 // 跨域之后window.onerror是无法捕获异常信息的，所以统一返回Script error.，解决方案便是script属性配置 crossorigin="anonymous" 并且服务器添加Access-Control-Allow-Origin。
-
 ;<script src="http://cdn.xxx.com/index.js" crossorigin="anonymous" />
 ```
