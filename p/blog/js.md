@@ -8,10 +8,48 @@
 
 ---
 
-1.  函数节流是指一定时间内 js 方法只跑一次。比如人的眨眼睛，就是一定时间内眨一次。这是函数节流最形象的解释。
-2.  函数防抖是指频繁触发的情况下，只有足够的空闲时间，才执行代码一次。比如生活中的坐公交，就是一定时间内，如果有人陆续刷卡上车，司机就不会开车。只有别人没刷卡了，司机才开车。
+### 获取元素的绝对位置，大小。 参数 js 对象
+
+```js
+function getElAbsolute(elem) {
+  var t = elem.offsetTop
+  var l = elem.offsetLeft
+  var w = elem.offsetWidth
+  var h = elem.offsetHeight
+  elem = elem.offsetParent
+  while (elem) {
+    t += elem.offsetTop
+    l += elem.offsetLeft
+    elem = elem.offsetParent
+  }
+  return {
+    top: t,
+    left: l,
+    width: w,
+    height: h
+  }
+}
+```
+
+### 兼容各种浏览器的,获取鼠标真实位置
+
+```js
+function mousePosition(ev) {
+  if (!ev) ev = window.event
+  if (ev.pageX || ev.pageY) {
+    return { x: ev.pageX, y: ev.pageY }
+  }
+  return {
+    x: ev.clientX + document.documentElement.scrollLeft - document.body.clientLeft,
+    y: ev.clientY + document.documentElement.scrollTop - document.body.clientTop
+  }
+}
+```
 
 ### 函数节流
+
+1.  函数节流是指一定时间内 js 方法只跑一次。比如人的眨眼睛，就是一定时间内眨一次。这是函数节流最形象的解释。
+2.  函数防抖是指频繁触发的情况下，只有足够的空闲时间，才执行代码一次。比如生活中的坐公交，就是一定时间内，如果有人陆续刷卡上车，司机就不会开车。只有别人没刷卡了，司机才开车。
 
 ```js
 const throttle = (fun, delay, ...rest) => {
