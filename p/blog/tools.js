@@ -180,6 +180,9 @@
    * @returns {boolean} 是否为数组
    */
   function isArray(arg) {
+    if (Array.isArray) {
+      return Array.isArray(arg)
+    }
     if (arg && typeof arg === 'object') {
       return Object.prototype.toString.call(arg) === '[object Array]';
     }
