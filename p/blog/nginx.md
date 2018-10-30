@@ -2,6 +2,17 @@
 
 ---
 
+### centos 安装 nginx
+
+1. 使用yum安装nginx需要包括Nginx的库，安装Nginx的库
+rpm -Uvh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
+
+2. 使用下面命令安装nginx
+yum install nginx
+
+3. 启动Nginx
+service nginx start
+
 ### Windows 下 Nginx 的启动、停止等命令
 
 1.  启动
