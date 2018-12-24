@@ -31,3 +31,13 @@
 
 这样做的好处是，远程主干上的历史永远是线性的。每个人在本地分支解决冲突，不会在主干上产生冲突。
 > 注意: 在最后一步，你提交的时候，若正巧有人在你前面执行了和你一样的流程，这时就会冲突了，就得`git pull git rebase origin/master git push`
+
+## git回滚到任意版本
+1. 先显示提交的log
+`git log -3`
+
+2. 回滚到指定的版本
+`git reset --hard [commit的hash]`
+
+3. 强制提交
+`git push -f origin master`
