@@ -11,7 +11,6 @@
 * [nginx](./blog/nginx.md)
 * [nodejs](./blog/nodejs.md)
 * [shell](./blog/shell.md)
-* [tools](./blog/tools.js)
 * [vue-cli3升级](./blog/vue-cli3升级.md)
 * [环境安装](./blog/环境安装.md)
 
