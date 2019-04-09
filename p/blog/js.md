@@ -266,32 +266,6 @@ function isEmptyObject(obj) {
 }
 ```
 
-### 防止多次请求
-
-```js
-function PreventMultipleRequests() {
-  // 防止多次请求
-  var $div = $('<div>')
-  $div.css({
-    width: '100%',
-    height: $(document).height() + 'px',
-    top: '0',
-    position: 'fixed',
-    zIndex: '999999',
-    display: 'none'
-  })
-  $('body').append($div)
-  $(document).on({
-    ajaxStart: function(params) {
-      $div.css('display', 'block')
-    },
-    ajaxComplete: function(params) {
-      $div.css('display', 'none')
-    }
-  })
-}
-```
-
 ### js 继承
 
 ```js
@@ -498,11 +472,7 @@ if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
 ```js
 function isWeiXin() {
   var ua = navigator.userAgent.toLowerCase()
-  if (ua.indexOf('micromessenger') != -1) {
-    return true
-  } else {
-    return false
-  }
+  return ua.indexOf('micromessenger') !== -1
 }
 ```
 

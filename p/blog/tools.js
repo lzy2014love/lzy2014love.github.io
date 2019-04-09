@@ -189,5 +189,23 @@
     return false;
   }
 
+  const isIE = UA && /msie|trident/.test(UA)
+  const _toString = Object.prototype.toString
+  /**
+   * 调用 toRawType(new Date) 返回值为 `Date`
+   * @param {any} value 
+   */
+  function toRawType (value) {
+    return _toString.call(value).slice(8, -1)
+  }
+
+  /**
+   * 判断给定变量是否是纯对象
+   * @param {any} obj 
+   * @returns {boolean}
+   */
+  function isPlainObject (obj) {
+    return _toString.call(obj) === '[object Object]'
+  }
 })();
 
