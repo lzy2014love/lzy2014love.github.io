@@ -620,3 +620,40 @@ window.onerror = function(errorMessage, scriptURI, lineNo, columnNo, error) {
 // 跨域之后window.onerror是无法捕获异常信息的，所以统一返回Script error.，解决方案便是script属性配置 crossorigin="anonymous" 并且服务器添加Access-Control-Allow-Origin。
 ;<script src="http://cdn.xxx.com/index.js" crossorigin="anonymous" />
 ```
+
+### 安卓微信浏览器location.reload()刷新无效
+```js
+/**
+ * 安卓微信浏览器location.reload()刷新无效
+ * 用location.href加时间戳重写location.reload方法
+ */
+
+/**
+ * 加时间戳
+ * @param {string} url URL
+ */
+function updateUrl(url) {
+  const key = '_timestamp='; // 默认是"_timestamp"
+  const reg = new RegExp(`${key}\\d+`); // 正则：_timestamp=1472286066028
+  const timestamp = +new Date();
+  if (url.indexOf(key) > -1) {
+    // 有时间戳，直接更新
+    return url.replace(reg, key + timestamp);
+  } // 没有时间戳，加上时间戳
+  if (url.indexOf('?') > -1) {
+    const urlArr = url.split('?');
+    if (urlArr[1]) {
+      return `${urlArr[0]}?${key}${timestamp}&${urlArr[1]}`;
+    }
+    return `${urlArr[0]}?${key}${timestamp}`;
+  }
+  if (url.indexOf('#') > -1) {
+    return `${url.split('#')[0]}?${key}${timestamp}${location.hash}`;
+  }
+  return `${url}?${key}${timestamp}`;
+}
+
+export default function reload() {
+  location.href = updateUrl(location.href);
+}
+```
