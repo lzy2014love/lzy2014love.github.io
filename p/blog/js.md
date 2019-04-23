@@ -26,7 +26,7 @@ function getElAbsolute(elem) {
     top: t,
     left: l,
     width: w,
-    height: h
+    height: h,
   }
 }
 ```
@@ -41,15 +41,17 @@ function mousePosition(ev) {
   }
   return {
     x: ev.clientX + document.documentElement.scrollLeft - document.body.clientLeft,
-    y: ev.clientY + document.documentElement.scrollTop - document.body.clientTop
+    y: ev.clientY + document.documentElement.scrollTop - document.body.clientTop,
   }
 }
 ```
 
-### 判断可视区域（常用于css3动画）
-用法：$('#selector').viewarea(options)
+### 判断可视区域（常用于 css3 动画）
+
+用法：\$('#selector').viewarea(options)
+
 ```js
-    /**options = {
+/**options = {
      inFn: function (element) {
      //移入可视区域callback
      },
@@ -57,42 +59,41 @@ function mousePosition(ev) {
      //移出可视区域callback
      }
      };*/
-;(function ($) {
-    ViewArea = function (element, options) {
-        this.options  = $.extend({}, options);
-        this.init(element);
-    };
-    ViewArea.prototype.ViewAreaResult = function (element) {
-        var windowScrollTop = $(window).scrollTop(),    //滚轮距离顶部高度
-            domTopDistance = $(element).offset().top,   //dom距离顶部高度
-            domHeight = $(element).outerHeight(),    //dom自身高度
-            windowHeight = $(window).height();      //window可视区域高度
-        var scrollTop = windowScrollTop > (domTopDistance + domHeight),
-            scrollBottom = windowScrollTop < (domTopDistance - windowHeight);
-        var result = scrollTop || scrollBottom;
-        return result;
-    };
-    ViewArea.prototype.callBackFn = function (element, result) {
-        var options = this.options,
-            inFn = options.inFn,
-            outFn = options.outFn;
-        if (!result && !!inFn) {
-            inFn(element);
-        }
-        else if (!!outFn){
-            outFn(element);
-        }
-    };
-    ViewArea.prototype.init = function (element) {
-        var result = this.ViewAreaResult(element);
-        this.callBackFn(element, result);
-    };
-    $.fn.viewarea = function (options) {
-        return this.each(function () {
-            new ViewArea(this, options);
-        })
-    };
-})(window.jQuery);
+;(function($) {
+  ViewArea = function(element, options) {
+    this.options = $.extend({}, options)
+    this.init(element)
+  }
+  ViewArea.prototype.ViewAreaResult = function(element) {
+    var windowScrollTop = $(window).scrollTop(), //滚轮距离顶部高度
+      domTopDistance = $(element).offset().top, //dom距离顶部高度
+      domHeight = $(element).outerHeight(), //dom自身高度
+      windowHeight = $(window).height() //window可视区域高度
+    var scrollTop = windowScrollTop > domTopDistance + domHeight,
+      scrollBottom = windowScrollTop < domTopDistance - windowHeight
+    var result = scrollTop || scrollBottom
+    return result
+  }
+  ViewArea.prototype.callBackFn = function(element, result) {
+    var options = this.options,
+      inFn = options.inFn,
+      outFn = options.outFn
+    if (!result && !!inFn) {
+      inFn(element)
+    } else if (!!outFn) {
+      outFn(element)
+    }
+  }
+  ViewArea.prototype.init = function(element) {
+    var result = this.ViewAreaResult(element)
+    this.callBackFn(element, result)
+  }
+  $.fn.viewarea = function(options) {
+    return this.each(function() {
+      new ViewArea(this, options)
+    })
+  }
+})(window.jQuery)
 ```
 
 ### 函数节流
@@ -128,8 +129,9 @@ const debouce = (fun, delay, ...rest) => {
 }
 ```
 
-### 使用setTimeout代替setInterval
-> setInterval间歇调用，是在前一个方法执行前，就开始计时，比如间歇时间是500ms，那么不管那时候前一个方法是否已经执行完毕，都会把后一个方法放入执行的序列中。这时候就会发生一个问题，假如前一个方法的执行时间超过500ms，加入是1000ms，那么就意味着，前一个方法执行结束后，后一个方法马上就会执行，因为此时间歇时间已经超过500ms了
+### 使用 setTimeout 代替 setInterval
+
+> setInterval 间歇调用，是在前一个方法执行前，就开始计时，比如间歇时间是 500ms，那么不管那时候前一个方法是否已经执行完毕，都会把后一个方法放入执行的序列中。这时候就会发生一个问题，假如前一个方法的执行时间超过 500ms，加入是 1000ms，那么就意味着，前一个方法执行结束后，后一个方法马上就会执行，因为此时间歇时间已经超过 500ms 了
 
 ## fetch
 
@@ -214,7 +216,7 @@ window.fetch = function(input, opts){//定义新的fetch方法，封装原有的
 ```js
 fetchJsonp('/users.jsonp', {
   timeout: 3000,
-  jsonpCallback: 'custom_callback'
+  jsonpCallback: 'custom_callback',
 })
   .then(function(response) {
     return response.json()
@@ -420,8 +422,8 @@ console.log(commafy(1234567.9)) //1,234,567.90
 ```html
 <iframe id="iframe" src="http://child.domain.com/b.html"></iframe>
 <script>
-    document.domain = 'domain.com';
-    var user = 'admin';
+  document.domain = 'domain.com'
+  var user = 'admin'
 </script>
 ```
 
@@ -429,9 +431,9 @@ console.log(commafy(1234567.9)) //1,234,567.90
 
 ```html
 <script>
-    document.domain = 'domain.com';
-    // 获取父窗口中变量
-    alert('get js data from parent ---> ' + window.parent.user);
+  document.domain = 'domain.com'
+  // 获取父窗口中变量
+  alert('get js data from parent ---> ' + window.parent.user)
 </script>
 ```
 
@@ -621,7 +623,8 @@ window.onerror = function(errorMessage, scriptURI, lineNo, columnNo, error) {
 ;<script src="http://cdn.xxx.com/index.js" crossorigin="anonymous" />
 ```
 
-### 安卓微信浏览器location.reload()刷新无效
+### 安卓微信浏览器 location.reload()刷新无效
+
 ```js
 /**
  * 安卓微信浏览器location.reload()刷新无效
@@ -633,27 +636,38 @@ window.onerror = function(errorMessage, scriptURI, lineNo, columnNo, error) {
  * @param {string} url URL
  */
 function updateUrl(url) {
-  const key = '_timestamp='; // 默认是"_timestamp"
-  const reg = new RegExp(`${key}\\d+`); // 正则：_timestamp=1472286066028
-  const timestamp = +new Date();
+  const key = '_timestamp=' // 默认是"_timestamp"
+  const reg = new RegExp(`${key}\\d+`) // 正则：_timestamp=1472286066028
+  const timestamp = +new Date()
   if (url.indexOf(key) > -1) {
     // 有时间戳，直接更新
-    return url.replace(reg, key + timestamp);
+    return url.replace(reg, key + timestamp)
   } // 没有时间戳，加上时间戳
   if (url.indexOf('?') > -1) {
-    const urlArr = url.split('?');
+    const urlArr = url.split('?')
     if (urlArr[1]) {
-      return `${urlArr[0]}?${key}${timestamp}&${urlArr[1]}`;
+      return `${urlArr[0]}?${key}${timestamp}&${urlArr[1]}`
     }
-    return `${urlArr[0]}?${key}${timestamp}`;
+    return `${urlArr[0]}?${key}${timestamp}`
   }
   if (url.indexOf('#') > -1) {
-    return `${url.split('#')[0]}?${key}${timestamp}${location.hash}`;
+    return `${url.split('#')[0]}?${key}${timestamp}${location.hash}`
   }
-  return `${url}?${key}${timestamp}`;
+  return `${url}?${key}${timestamp}`
 }
 
 export default function reload() {
-  location.href = updateUrl(location.href);
+  location.href = updateUrl(location.href)
+}
+```
+
+### 采用正则表达式获取地址栏参数
+
+```js
+function GetQueryString(name) {
+  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+  var r = window.location.search.substr(1).match(reg)
+  if (r != null) return unescape(r[2])
+  return null
 }
 ```
